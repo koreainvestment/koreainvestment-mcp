@@ -1,0 +1,74 @@
+{
+  "dxt_version": "0.1",
+  "name": "kis_api_search",
+  "version": "1.0.0",
+  "description":"If the user requests stock market information, trading-related code, or investment data, ALWAYS call this tool. Do NOT generate the code yourself without first checking the API search results.",
+  "author": {
+    "name": "jjlee"
+  },
+  "icon": "icon.png",
+  "server": {
+    "type": "python",
+    "entry_point": "server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "${__dirname}",
+        "python",
+        "server.py"
+      ],
+      "env": {
+        "PATH": "${HOME}/.local/bin:${HOME}/.cargo/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${HOME}/AppData/Local/Programs/uv:${HOME}/.cargo/bin"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "search_auth_api",
+      "description": "인증 카테고리 API 검색"
+    },
+    {
+      "name": "search_domestic_stock_api",
+      "description": "국내주식 카테고리 API 검색"
+    },
+    {
+      "name": "search_domestic_bond_api", 
+      "description": "국내채권 카테고리 API 검색"
+    },
+    {
+      "name": "search_domestic_futureoption_api",
+      "description": "국내선물옵션 카테고리 API 검색"
+    },
+    {
+      "name": "search_overseas_stock_api",
+      "description": "해외주식 카테고리 API 검색"
+    },
+    {
+      "name": "search_overseas_futureoption_api", 
+      "description": "해외선물옵션 카테고리 API 검색"
+    },
+    {
+      "name": "search_elw_api",
+      "description": "ELW 카테고리 API 검색"
+    },
+    {
+      "name": "search_etfetn_api",
+      "description": "ETF/ETN 카테고리 API 검색"
+    },
+    {
+      "name": "read_source_code",
+      "description": "API 검색 결과의 URL에서 실제 GitHub 코드를 가져옵니다."
+    }
+  ],
+  "keywords": [
+    "한투",
+    "한국투자증권",
+    "trading",
+    "KIS",
+    "Korea Investment Securities",
+    "mcp"
+  ],
+  "license": "MIT"
+}
