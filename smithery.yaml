@@ -7,17 +7,24 @@ startCommand:
     properties:
       # 현재 프로젝트는 별도의 API 키가 필요하지 않음
       # 필요한 경우 나중에 추가 가능
+      debug:
+        type: boolean
+        description: "디버그 모드 활성화"
+        default: false
   commandFunction:
     # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
     |-
     (config) => ({
-      command: 'python3',
-      args: ['server.py'],
+      command: 'bash',
+      args: ['-c', 'source .venv/bin/activate && python3 server.py'],
       env: {
         # 필요한 환경변수가 있다면 여기에 추가
         # 현재는 기본 설정만 사용
+        PYTHONPATH: '.',
+        PYTHONUNBUFFERED: '1'
       }
     })
   exampleConfig:
     # 현재 프로젝트는 별도의 설정이 필요하지 않음
     # 기본 stdio 모드로 실행
+    debug: false
