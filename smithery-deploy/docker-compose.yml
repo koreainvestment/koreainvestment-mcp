@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  kis-api-server:
+    build: .
+    container_name: kis-api-search-server
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # 데이터 파일을 볼륨으로 마운트 (선택사항)
+      - ./data2.csv:/app/data2.csv:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - kis-network
+
+  # 개발용 서비스 (볼륨 마운트로 코드 변경 실시간 반영)
+  kis-api-server-dev:
+    build: .
+    container_name: kis-api-search-server-dev
+    ports:
+      - "8001:8000"
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - .:/app
+      - /app/.venv  # 가상환경은 컨테이너 내부에 유지
+    restart: unless-stopped
+    profiles:
+      - dev
+    networks:
+      - kis-network
+
+networks:
+  kis-network:
+    driver: bridge

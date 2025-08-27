@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "kis_api_search": {
+      "command": "uv",
+      "args": ["run", "--directory", "${workspaceFolder}", "python", "server.py"],
+      "env": {
+        "PATH": "${HOME}/.local/bin:${HOME}/.cargo/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${HOME}/AppData/Local/Programs/uv:${HOME}/.cargo/bin"
+      }
+    }
+  }
+}
