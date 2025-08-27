@@ -1,0 +1,23 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      # 현재 프로젝트는 별도의 API 키가 필요하지 않음
+      # 필요한 경우 나중에 추가 가능
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({
+      command: 'python3',
+      args: ['server.py'],
+      env: {
+        # 필요한 환경변수가 있다면 여기에 추가
+        # 현재는 기본 설정만 사용
+      }
+    })
+  exampleConfig:
+    # 현재 프로젝트는 별도의 설정이 필요하지 않음
+    # 기본 stdio 모드로 실행
