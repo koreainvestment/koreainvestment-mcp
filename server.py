@@ -724,4 +724,10 @@ async def fetch_api_code(
 
 
 if __name__ == "__main__":
-    asyncio.run(mcp.run())
+    try:
+        # FastMCP 2.x 버전에서 stdio 모드로 실행
+        asyncio.run(mcp.run_stdio_async())
+    except Exception as e:
+        import sys
+        print(f"서버 실행 오류: {e}", file=sys.stderr)
+        sys.exit(1)
