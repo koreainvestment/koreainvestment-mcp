@@ -1,0 +1,97 @@
+runtime: "container"
+
+# MCP 서버 시작 명령어 설정
+startCommand:
+  type: "http"
+  configSchema:
+    type: "object"
+    title: "KIS API Search Server Configuration"
+    description: "한국투자증권 KIS API 검색 서버 설정"
+    properties:
+      # 기본 설정
+      port:
+        type: "integer"
+        title: "서버 포트"
+        description: "MCP 서버가 실행될 포트 번호"
+        default: 8000
+        minimum: 1024
+        maximum: 65535
+      
+      # 로깅 설정
+      logLevel:
+        type: "string"
+        title: "로그 레벨"
+        description: "서버 로그 출력 레벨"
+        enum: ["DEBUG", "INFO", "WARNING", "ERROR"]
+        default: "INFO"
+      
+      # API 제한 설정
+      rateLimit:
+        type: "number"
+        title: "API 호출 제한 (초)"
+        description: "GitHub API 호출 간격 (초 단위)"
+        default: 0.1
+        minimum: 0.05
+        maximum: 1.0
+      
+      # 데이터베이스 설정
+      dataSource:
+        type: "object"
+        title: "데이터 소스 설정"
+        properties:
+          csvPath:
+            type: "string"
+            title: "CSV 파일 경로"
+            description: "API 데이터베이스 CSV 파일 경로"
+            default: "data2.csv"
+          maxResults:
+            type: "integer"
+            title: "최대 검색 결과 수"
+            description: "한 번에 반환할 최대 검색 결과 수"
+            default: 10
+            minimum: 1
+            maximum: 100
+      
+      # GitHub 설정
+      github:
+        type: "object"
+        title: "GitHub API 설정"
+        properties:
+          baseUrl:
+            type: "string"
+            title: "GitHub 기본 URL"
+            description: "GitHub API 기본 URL"
+            default: "https://raw.githubusercontent.com/koreainvestment/open-trading-api/main"
+          timeout:
+            type: "integer"
+            title: "요청 타임아웃 (초)"
+            description: "GitHub API 요청 타임아웃"
+            default: 10
+            minimum: 5
+            maximum: 60
+    
+    required: []
+    additionalProperties: false
+
+# 예시 설정값
+exampleConfig:
+  port: 8000
+  logLevel: "INFO"
+  rateLimit: 0.1
+  dataSource:
+    csvPath: "data2.csv"
+    maxResults: 10
+  github:
+    baseUrl: "https://raw.githubusercontent.com/koreainvestment/open-trading-api/main"
+    timeout: 10
+
+# Docker 빌드 설정
+build:
+  dockerfile: "Dockerfile"
+  dockerBuildPath: "."
+
+# 환경 변수 설정
+env:
+  PYTHONPATH: "/app"
+  PYTHONUNBUFFERED: "1"
+  NODE_ENV: "production"

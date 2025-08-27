@@ -1,16 +1,21 @@
 version: '3.8'
 
 services:
+  # Smithery 프로덕션 서비스
   kis-api-server:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     container_name: kis-api-search-server
     ports:
       - "8000:8000"
     environment:
       - PYTHONPATH=/app
       - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - NODE_ENV=production
     volumes:
-      # 데이터 파일을 볼륨으로 마운트 (선택사항)
+      # 데이터 파일을 볼륨으로 마운트 (읽기 전용)
       - ./data2.csv:/app/data2.csv:ro
     restart: unless-stopped
     healthcheck:
@@ -21,17 +26,24 @@ services:
       start_period: 40s
     networks:
       - kis-network
+    # Smithery 호환성: Linux 기반 이미지 확인
+    platform: linux/amd64
 
-  # 개발용 서비스 (볼륨 마운트로 코드 변경 실시간 반영)
+  # Smithery 개발용 서비스
   kis-api-server-dev:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     container_name: kis-api-search-server-dev
     ports:
       - "8001:8000"
     environment:
       - PYTHONPATH=/app
       - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - NODE_ENV=development
     volumes:
+      # 개발용 볼륨 마운트 (코드 변경 실시간 반영)
       - .:/app
       - /app/.venv  # 가상환경은 컨테이너 내부에 유지
     restart: unless-stopped
@@ -39,6 +51,7 @@ services:
       - dev
     networks:
       - kis-network
+    platform: linux/amd64
 
 networks:
   kis-network:

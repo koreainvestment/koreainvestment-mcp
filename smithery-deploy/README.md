@@ -186,15 +186,15 @@ code = await read_source_code(
 - **프로토콜**: HTTP/1.1
 - **FastMCP**: FastMCP 프레임워크 기반
 
-## 🐳 Docker 지원
+## 🐳 Docker 지원 (Smithery 최적화)
 
 ### Docker 이미지 특징
 
-- **Python 3.13 slim**: 가벼운 베이스 이미지 사용
+- **Python 3.13 Alpine**: [Smithery 요구사항](https://smithery.ai/docs/build/project-config/dockerfile)에 맞는 Linux 기반 이미지
 - **uv 패키지 매니저**: 빠른 의존성 설치
 - **헬스체크**: 자동 상태 모니터링
 - **볼륨 마운트**: 데이터 파일 외부 관리 가능
-- **멀티 스테이지**: 최적화된 이미지 크기
+- **Linux 호환성**: Alpine Linux 기반으로 Smithery 완벽 지원
 
 ### Docker Compose 서비스
 
@@ -202,16 +202,20 @@ code = await read_source_code(
    - 포트: 8000
    - 자동 재시작
    - 헬스체크 포함
+   - **Smithery 배포용 최적화**
 
 2. **개발 서비스** (`kis-api-server-dev`)
    - 포트: 8001
    - 코드 변경 실시간 반영
    - 볼륨 마운트로 개발 편의성 향상
+   - **Smithery 개발 환경 지원**
 
 ### 환경 변수
 
 - `PYTHONPATH=/app`: Python 모듈 경로 설정
 - `PYTHONUNBUFFERED=1`: 로그 즉시 출력
+- `PYTHONDONTWRITEBYTECODE=1`: Python 바이트코드 파일 생성 방지
+- `NODE_ENV`: 환경 설정 (production/development)
 
 ## ⚠️ 주의사항
 

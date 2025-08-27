@@ -1,6 +1,9 @@
+# Smithery Docker 빌드 최적화를 위한 .dockerignore
+
 # Git 관련 파일
 .git
 .gitignore
+.gitattributes
 
 # Python 관련
 __pycache__
@@ -19,17 +22,15 @@ nosetests.xml
 coverage.xml
 *.cover
 *.log
-.git
 .mypy_cache
 .pytest_cache
 .hypothesis
 
-# 가상환경
+# 가상환경 (컨테이너 내부에서 생성)
 .venv
 venv/
 ENV/
 env/
-.venv/
 
 # IDE 관련
 .vscode/
@@ -49,16 +50,34 @@ Thumbs.db
 
 # 로그 파일
 *.log
+logs/
 
 # 임시 파일
 *.tmp
 *.temp
+temp/
 
-# README 및 문서 (선택사항)
-README.md
-*.md
+# 개발 도구
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Docker 관련
-Dockerfile
+# Docker 관련 (빌드 컨텍스트에서 제외)
 docker-compose.yml
 .dockerignore
+
+# 문서 (빌드에 불필요)
+README.md
+*.md
+docs/
+
+# 테스트 파일
+tests/
+test_*
+*_test.py
+
+# 설정 파일 (환경별)
+.env
+.env.local
+.env.*.local
